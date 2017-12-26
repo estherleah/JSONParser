@@ -1,0 +1,47 @@
+package Example;
+
+import java_cup.runtime.*;
+
+parser code {:
+	public static void main(String args[]) {
+		SymbolFactory sf = new DefaultSymbolFactory();
+		try {
+			if (args.length==0) {
+				new Parser(new Scanner(System.in,sf),sf).parse();
+			}
+			else {
+				new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse();
+			}
+			System.out.println("Valid");
+		}
+		catch (Exception e) {
+			System.out.println("Invalid json");
+		}
+	}
+:}
+
+/* creating terminals */
+terminal COMMA, LSQBRACKET, RSQBRACKET, LBRACE, RBRACE, COLON, NULL;
+terminal Double NUMBER;
+terminal String STRING;
+terminal Boolean BOOLEAN;
+
+/* creating non terminals */
+non terminal valid_json, value, object, array, value_list, object_list, object_item;
+
+/* defining valid json structures */
+valid_json ::= object | array;
+
+/* defining object and array structures */
+object ::= LBRACE RBRACE | LBRACE object_list RBRACE;
+array ::= LSQBRACKET RSQBRACKET | LSQBRACKET value_list RSQBRACKET;
+
+/* defining what can be contained in an array */
+value_list ::= value_list COMMA value | value;
+
+/* defining what can be contained in an object */
+object_list ::= object_list COMMA object_item | object_item;
+object_item ::= STRING COLON value;
+
+/* defining what a json value is */
+value ::= STRING | NUMBER | BOOLEAN | NULL | object | array;
