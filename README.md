@@ -1,4 +1,4 @@
-# JSONParser
+# JSON Parser
 Validates JSON files according to the [ECMA-404 2013 JSON standard](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf) using the [JFlex Scanner](http://www.jflex.de/) and [CUP Parser](http://www2.cs.tum.edu/projects/cup/) generators.
 
 ### Prerequisites
